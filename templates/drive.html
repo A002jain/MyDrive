@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>{{name}}</title>
+	<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+	<h3>{{currentDrive}}</h3>    
+	{% for i in list %}
+	<ul>
+		<li><a href="/download/{{i}}">{{i}}</a></li>
+	</ul>
+	{% endfor %}
+	<a href="/back">back</a>
+	<br>
+	<br>
+	<h3><a href="/switchDrive">Switch to {{switchDrive}}</a><h3>
+	<h3><a href="/upload1">upload File 1</a><h3>
+	<h3><a href="/upload2">upload File 2</a><h3>
+</body>
+</html>

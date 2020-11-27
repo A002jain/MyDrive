@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Media</title>
+	<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+	<h3>StreamMedia</h3>    
+	{% for i in range(dirLength)%}
+	<ul>
+		<li><a href="/stream/{{i}}">{{list[i]}}</a></li>
+	</ul>
+	{% endfor %}
+	<a href="/back1">back</a>
+	<br>
+	<br>
+	<h3><a href="/drive">Switch to Drive</a><h3>
+</body>
+</html>
