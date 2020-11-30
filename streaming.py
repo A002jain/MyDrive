@@ -1,16 +1,15 @@
 from __future__ import print_function
-import logging
 import os
 import re
 import mimetypes
 import subprocess as sb
 from flask import (
-    Response, Blueprint, redirect, render_template, request, session
+    Response, Blueprint, redirect, render_template, request, session, url_for
 )
+from utils import change_dir, provide_dir_path, drives, userList
 
 bp = Blueprint('stream', __name__)
 global PATH
-LOG = logging.getLogger(__name__)
 VIDEO_PATH = '/video'
 MB = 1 << 20
 BUFF_SIZE = 10 * MB
@@ -34,26 +33,23 @@ def back():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
     os.chdir("..")
-    return redirect('/media')
+    return redirect(url_for('stream.media_video'))
 
 
-@bp.route('/stream/<int:media>')
-def home(media):
+@bp.route('/stream/<int:file>')
+def home(file):
     global listFiles
-    print(listFiles[media])
-    LOG.info('Rendering home page')
-    if listFiles[media].find(".") == -1:
+    print(listFiles[file])
+    if listFiles[file].find(".") == -1:
         print("*" * 100)
-        os.chdir(listFiles[media])
-        return redirect('/media')
-    response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(media))
+        os.chdir(listFiles[file])
+        return redirect(url_for('stream.media_video'))
+    response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(file))
     return response
 
 
 def partial_response(path, start, end=None):
-    LOG.info('Requested: %s, %s', start, end)
     file_size = os.path.getsize(path)
-
     # Determine (end, length)
     if end is None:
         end = start + BUFF_SIZE - 1
@@ -81,14 +77,11 @@ def partial_response(path, start, end=None):
     response.headers.add(
         'Accept-Ranges', 'bytes'
     )
-    LOG.info('Response: %s', response)
-    LOG.info('Response: %s', response.headers)
     return response
 
 
 def get_range(request_x):
     range_x = request_x.headers.get('Range')
-    LOG.info('Requested: %s', range_x)
     m = re.match('bytes=(?P<start>\d+)-(?P<end>\d+)?', range_x)
     if m:
         start = m.group('start')
