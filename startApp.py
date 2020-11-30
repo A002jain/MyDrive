@@ -5,7 +5,7 @@ import os
 from werkzeug.utils import secure_filename
 from streaming import bp
 from users import bp as user_bp
-from utils import change_dir, provide_dir_path, drives, userList
+from utils import change_dir, provide_dir_path, drives, userList,provide_ls_cmd
 
 HOME_DIR = "/home/abhinav/"
 UPLOAD_FOLDER = "/home/abhinav/Downloads"
@@ -54,8 +54,7 @@ def index():
 def drive():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    cmd = "ls " + provide_dir_path()
-    print(cmd)
+    cmd = provide_ls_cmd()
     files_x = sb.Popen(cmd, shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
     list_files = files_x.stdout.read().decode().split("\n")[:-1]
     return render_template('drive.html', name='FileExplorer', list=list_files, currentDrive=drives[0][0],switchDrive=drives[1][0])
