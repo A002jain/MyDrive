@@ -1,15 +1,14 @@
-from flask import Flask, session, redirect, url_for, request, send_file, flash
+from flask import Flask, session, redirect, url_for, request, send_file
 from flask import render_template
 import subprocess as sb
 import os
 from werkzeug.utils import secure_filename
 from streaming import bp
 from users import bp as user_bp
-from utils import change_dir, provide_dir_path, drives, userList,provide_ls_cmd
+from utils import change_dir, provide_dir_path, drives, userList, provide_ls_cmd
 
-HOME_DIR = "/home/abhinav/"
 UPLOAD_FOLDER = "/home/abhinav/Downloads"
-
+# style="background-image: url('{{ url_for('static',filename='images/image.jpg') }}');"
 # https://stackoverflow.com/questions/40460846/using-flask-inside-class
 # https://flask.palletsprojects.com/en/1.1.x/patterns/fileuploads/
 
@@ -19,28 +18,6 @@ app.secret_key = b'_5#y2L";[.3z\n\xec]/'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.register_blueprint(bp)
 app.register_blueprint(user_bp)
-
-
-# def change_dir(directory):
-# 	current_drive = session['currentDrive']
-# 	if directory == "switchDrive":
-# 		drives.reverse()
-# 		print(drives)
-# 		session['currentDrive'] = drives[0][1]
-# 	elif directory != "..":
-# 		session['currentDrive'] = current_drive + "/" + directory
-# 	else:
-# 		print("back")
-# 		current_drive = current_drive[:-1] if current_drive[-1] == "/" else current_drive
-# 		tmp = current_drive.split("/")[1:-1]
-# 		current_drive = ""
-# 		for i in tmp:
-# 			current_drive = current_drive + "/" + i
-# 			session['currentDrive'] = current_drive
-#
-#
-# def provide_dir_path():
-# 	return session['currentDrive']
 
 
 @app.route('/')
@@ -57,7 +34,8 @@ def drive():
     cmd = provide_ls_cmd()
     files_x = sb.Popen(cmd, shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
     list_files = files_x.stdout.read().decode().split("\n")[:-1]
-    return render_template('drive.html', name='FileExplorer', list=list_files, currentDrive=drives[0][0],switchDrive=drives[1][0])
+    return render_template('drive.html', name='FileExplorer', list=list_files, currentDrive=drives[0][0],
+                           switchDrive=drives[1][0])
 
 
 @app.route('/back', methods=['GET', 'POST'])
@@ -68,17 +46,17 @@ def back():
     return redirect(url_for('drive'))
 
 
-@app.route('/download/<index>', methods=['GET', 'POST'])
-def download(index):
+@app.route('/download/<index_x>', methods=['GET', 'POST'])
+def download(index_x):
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    print(index)
-    if index.find(".") == -1:
+    print(index_x)
+    if index_x.find(".") == -1:
         print("*" * 100)
-        print(index)
-        change_dir(index)
+        print(index_x)
+        change_dir(index_x)
         return redirect(url_for('drive'))
-    path = provide_dir_path() + "/" + index
+    path = provide_dir_path() + "/" + index_x
     print(path)
     return send_file(path, as_attachment=True)
 
@@ -91,7 +69,7 @@ def switch_drive():
     return redirect(url_for('drive'))
 
 
-####################UPLOAD####################################################
+# ###################UPLOAD####################################################
 
 @app.route('/upload1')
 def upload1():
@@ -127,7 +105,11 @@ def uploadFile():
 # https://www.w3schools.com/howto/howto_css_navbar_icon.asp
 
 
-@app.route('/ser/listing', methods=['GET'])
+@app.route('/user/listing', methods=['GET'])
 def listing():
     print(userList)
     return str(session)
+
+
+if __name__ == "__main__":
+    app.run(host="192.168.43.53", debug=True)

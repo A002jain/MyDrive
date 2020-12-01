@@ -4,7 +4,7 @@
 	<title>Login</title>
 	<link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
+<body >
 	<h3>login</h3>
 	<p>
 		{% with messages = get_flashed_messages() %}
@@ -16,8 +16,8 @@
 		{% endwith %}	
 	</p>
 	<form method="post">
-		<p>Name<input type=text name=username></p>
-		<p>Password<input type=password name=password></p>
+		<p>Username <input type=text name=username></p>
+		<p>Password <input type=password name=password></p>
 		<p><input type=submit value=Login></p>
 	</form>
 	<a href="/register">Register</a>
@@ -27,11 +27,10 @@
 	<p>Active User</p>
 	{% for user in user_list: %}
 	<ul>
-		<li>{{user[0]}}</li>
+		<li style="color: white">{{user[0]}}</li>
 	</ul>
 	{% endfor %}
 	{% endif %}
 
 </body>
-</html>
 </html>

@@ -6,7 +6,7 @@ import subprocess as sb
 from flask import (
     Response, Blueprint, redirect, render_template, request, session, url_for
 )
-from utils import change_dir, provide_dir_path, drives, userList
+from utils import change_dir, provide_dir_path, drives, userList, provide_ls_cmd
 
 bp = Blueprint('stream', __name__)
 global PATH
@@ -20,10 +20,11 @@ global listFiles
 def media_video():
     global listFiles
     global PATH
-    PATH = sb.Popen("pwd", shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE).stdout.read().decode()[:-1] + "/"
+#    PATH = sb.Popen("pwd", shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE).stdout.read().decode()[:-1] + "/"
+    PATH = provide_dir_path()
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    files_x = sb.Popen("ls", shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
+    files_x = sb.Popen(provide_ls_cmd(), shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
     listFiles = files_x.stdout.read().decode().split("\n")[:-1]
     return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles))
 
@@ -32,7 +33,8 @@ def media_video():
 def back():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    os.chdir("..")
+#    os.chdir("..")
+    change_dir("..")
     return redirect(url_for('stream.media_video'))
 
 
@@ -42,7 +44,8 @@ def home(file):
     print(listFiles[file])
     if listFiles[file].find(".") == -1:
         print("*" * 100)
-        os.chdir(listFiles[file])
+#        os.chdir(listFiles[file])
+        change_dir(listFiles[file])
         return redirect(url_for('stream.media_video'))
     response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(file))
     return response

@@ -42,10 +42,10 @@ def add():
         password = request.form['password']
         if len(username) == 0 or len(password) == 0:
             flash("username or password is empty")
-            return redirect(url_for('register'))
+            return redirect(url_for('user.register'))
         if len(password) > 8:
             flash("password should not greater then 8")
-            return redirect(url_for('register'))
+            return redirect(url_for('user.register'))
         user.append(username)
         user.append(password)
         userList.append(user)

@@ -6,4 +6,14 @@ a:link, a:visited {
 }
 a:hover {
    	color: red;
-}	
+}
+body {
+  background-image: url('/static/images/annabelle.jpg');
+  background-attachment: fixed;
+}
+
+p,h3{
+  color: white
+}
+
+
