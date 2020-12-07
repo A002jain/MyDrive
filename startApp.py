@@ -1,11 +1,10 @@
 from flask import Flask, session, redirect, url_for, request, send_file
 from flask import render_template
-import subprocess as sb
 import os
 from werkzeug.utils import secure_filename
 from streaming import bp
 from users import bp as user_bp
-from utils import change_dir, provide_dir_path, drives, userList, provide_ls_cmd
+from utils import change_dir, provide_dir_path, drives, userList, drive_listing, generic_file_listing
 
 UPLOAD_FOLDER = "/home/abhinav/Downloads"
 # style="background-image: url('{{ url_for('static',filename='images/image.jpg') }}');"
@@ -31,9 +30,8 @@ def index():
 def drive():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    cmd = provide_ls_cmd()
-    files_x = sb.Popen(cmd, shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
-    list_files = files_x.stdout.read().decode().split("\n")[:-1]
+    list_files = drive_listing()
+    # list_files = generic_file_listing(provide_dir_path())
     return render_template('drive.html', name='FileExplorer', list=list_files, currentDrive=drives[0][0],
                            switchDrive=drives[1][0])
 

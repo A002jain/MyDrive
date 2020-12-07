@@ -20,7 +20,7 @@ def login():
             return redirect(request.url)
         if user in userList:
             session['username'] = request.form['username']
-            session['currentDrive'] = "/home/abhinav/"
+            session['currentPath'] = "/home/abhinav/"
             return redirect(url_for('index'))
         else:
             flash("incorrect username or password ")
@@ -60,4 +60,5 @@ def logout():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
     session.pop('username', None)
+    session.pop('currentPath', None)
     return redirect(url_for('index'))

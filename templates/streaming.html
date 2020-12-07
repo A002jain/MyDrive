@@ -1,5 +1,4 @@
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,33 +9,51 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/drive">Drive</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/upload1">Upload1</a>
-        </li>
-          <li class="nav-item">
-          <a class="nav-link" href="/upload2">Upload2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="/logout">Logout</a>
-        </li>
-      </ul>
-    </nav>
-  <video
-     src="{{ video }}"
-     width="1240"
-     height="720"
-     controls controlsList="nodownload"
-     autoplay
-     >
-     no video to show
-  </video>
+    <div class="d-flex flex-column bd-highlight mb-3">
+        <div class="">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/drive">Drive</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/upload1">Upload1</a>
+                </li>
+                  <li class="nav-item">
+                  <a class="nav-link" href="/upload2">Upload2</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link " href="/logout">Logout</a>
+                </li>
+              </ul>
+            </nav>
+        </div>
+        <div class="d-flex bd-highlight">
+            <div class="p-2 flex-fill bd-highlight">
+              <video
+                 src="{{ video }}"
+                 width="1240"
+                 height="720"
+                 controls controlsList="nodownload"
+                 autoplay
+                 >
+                 no video to show
+              </video>
+            </div>
+            <div class="p-2 flex-fill bd-highlight">
+                <ul style="color : white">
+                    <li>
+                        first
+                    </li>
+                    <li>
+                        second
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

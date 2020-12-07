@@ -2,14 +2,13 @@ from __future__ import print_function
 import os
 import re
 import mimetypes
-import subprocess as sb
 from flask import (
     Response, Blueprint, redirect, render_template, request, session, url_for
 )
-from utils import change_dir, provide_dir_path, drives, userList, provide_ls_cmd
+from utils import change_dir, provide_dir_path, list_files_to_stream
 
 bp = Blueprint('stream', __name__)
-global PATH
+
 VIDEO_PATH = '/video'
 MB = 1 << 20
 BUFF_SIZE = 10 * MB
@@ -19,13 +18,9 @@ global listFiles
 @bp.route('/media', methods=['GET', 'POST'])
 def media_video():
     global listFiles
-    global PATH
-#    PATH = sb.Popen("pwd", shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE).stdout.read().decode()[:-1] + "/"
-    PATH = provide_dir_path()
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    files_x = sb.Popen(provide_ls_cmd(), shell=True, stdout=sb.PIPE, stdin=sb.PIPE, stderr=sb.PIPE)
-    listFiles = files_x.stdout.read().decode().split("\n")[:-1]
+    listFiles = list_files_to_stream()
     return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles))
 
 
@@ -33,7 +28,6 @@ def media_video():
 def back():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-#    os.chdir("..")
     change_dir("..")
     return redirect(url_for('stream.media_video'))
 
@@ -44,7 +38,6 @@ def home(file):
     print(listFiles[file])
     if listFiles[file].find(".") == -1:
         print("*" * 100)
-#        os.chdir(listFiles[file])
         change_dir(listFiles[file])
         return redirect(url_for('stream.media_video'))
     response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(file))
@@ -99,9 +92,7 @@ def get_range(request_x):
 
 @bp.route(VIDEO_PATH + "/<int:file>")
 def video(file):
-    global PATH
     global listFiles
-    path = PATH + listFiles[file]
-    print(path)
+    path = provide_dir_path() + listFiles[file]
     start, end = get_range(request)
     return partial_response(path, start, end)
