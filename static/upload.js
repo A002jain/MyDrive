@@ -18,7 +18,7 @@ $(document).ready(function() {
 						console.log('Total Size: ' + e.total);
 						console.log('Percentage Uploaded: ' + (e.loaded / e.total))
 
-						var percent = Math.round((e.loaded / e.total) * 100);
+						var percent = Math.round((e.loaded / e.total) * 90);
 
 						$('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
 
@@ -33,11 +33,11 @@ $(document).ready(function() {
 			data : formData,
 			processData : false,
 			contentType : false,
-			success : setTimeout(function() {
+			success : function() {
 				$('form').trigger("reset");
+				alert('File uploaded!');
 				$('#progressBar').attr('aria-valuenow', 0).css('width', 0 + '%').text(0 + '%');
-			    alert('File uploaded!');
-			},1000)
+			}
 		});
 
 	});

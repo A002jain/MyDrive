@@ -3,11 +3,11 @@
 <head>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/static/style.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
 	<title>{{name}}</title>
 </head>
 <body>
@@ -33,7 +33,8 @@
         </li>
       </ul>
     </nav>
-	<h3>{{currentDrive}}</h3>    
+
+	<h3>{{drive_name[0][0]}}</h3>
 	{% for i in list %}
 	<ul>
 		<li><a href="/download/{{i}}">{{i}}</a></li>
@@ -42,8 +43,14 @@
 	<a href="/back">back</a>
 	<br>
 	<br>
-	<h3><a href="/switchDrive">Switch to {{switchDrive}}</a><h3>
-	<h3><a href="/upload1">upload File 1</a><h3>
-	<h3><a href="/upload2">upload File 2</a><h3>
+    {% if os_name == "Linux" %}
+	    <h3><a href="/switchDrive">Move to {{drive_name[1][0]}}</a></h3>
+    {% else %}
+            {% for i in drive_name[0][1:] %}
+                <h3><a href="/switchDrive/{{i[0]}}">Move to {{i}}</a></h3>
+            {% endfor %}
+    {% endif %}
+	<h3><a href="/upload1">upload File 1</a></h3>
+	<h3><a href="/upload2">upload File 2</a></h3>
 </body>
 </html>

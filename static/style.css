@@ -8,7 +8,7 @@ a:hover {
    	color: red;
 }
 body {
-  background-image: url('/static/images/annabelle.jpg');
+  background:linear-gradient(to right,#00AAFF,#00FF6C);
   background-attachment: fixed;
 }
 
@@ -16,4 +16,22 @@ p,h3{
   color: white
 }
 
+.videoInsert {
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+}
 
+.v2 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background-size: cover;
+    overflow: hidden;
+}

@@ -5,7 +5,7 @@ import mimetypes
 from flask import (
     Response, Blueprint, redirect, render_template, request, session, url_for
 )
-from utils import change_dir, provide_dir_path, list_files_to_stream
+from utils import change_dir, provide_dir_path, generic_file_listing, drives,get_os
 
 bp = Blueprint('stream', __name__)
 
@@ -20,8 +20,9 @@ def media_video():
     global listFiles
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    listFiles = list_files_to_stream()
-    return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles))
+    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv"])
+    return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
+                           drive_name=drives, os_name=get_os())
 
 
 @bp.route('/back1', methods=['GET', 'POST'])
@@ -29,6 +30,18 @@ def back():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
     change_dir("..")
+    return redirect(url_for('stream.media_video'))
+
+
+@bp.route('/switchDrive1/<index_x>//')
+@bp.route('/switchDrive1', methods=['GET'])
+def switch_drive(index_x=None):
+    if 'username' not in session:
+        return "login first <a href='/login'>login</a>"
+    if index_x is None:
+        change_dir("switch#Drive")
+    else:
+        change_dir("switch#Drive#"+str(index_x))
     return redirect(url_for('stream.media_video'))
 
 
@@ -96,3 +109,6 @@ def video(file):
     path = provide_dir_path() + listFiles[file]
     start, end = get_range(request)
     return partial_response(path, start, end)
+
+
+

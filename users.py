@@ -2,7 +2,7 @@ from __future__ import print_function
 from flask import (
     Blueprint, redirect, render_template, request, session, url_for, flash
 )
-from utils import userList
+from utils import userList, drives, get_os
 
 bp = Blueprint('user', __name__)
 
@@ -20,7 +20,7 @@ def login():
             return redirect(request.url)
         if user in userList:
             session['username'] = request.form['username']
-            session['currentPath'] = "/home/abhinav/"
+            session['currentPath'] = drives[0][1] if get_os() == 'Linux' else drives[0][0]
             return redirect(url_for('index'))
         else:
             flash("incorrect username or password ")
