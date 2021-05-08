@@ -18,7 +18,7 @@ $(document).ready(function() {
 						console.log('Total Size: ' + e.total);
 						console.log('Percentage Uploaded: ' + (e.loaded / e.total))
 
-						var percent = Math.round((e.loaded / e.total) * 90);
+						var percent = Math.round((e.loaded / e.total) * 100);
 
 						$('#progressBar').attr('aria-valuenow', percent).css('width', percent + '%').text(percent + '%');
 

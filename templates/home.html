@@ -4,11 +4,8 @@
 	<title>Home</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/static/style.css">
-<!--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-<!--	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>-->
-<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/plugin/bootstrap-4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
     <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -33,15 +30,23 @@
         </li>
       </ul>
     </nav>
-	<p>Logged in as {{loginas}}</p>
-	<ul>
+	<h3 class="d-flex justify-content-center py-3">Welcome {{loginas}}</h3>
+	<!--ul class="list-group">
 		<li><a href="/drive">Drive</a></li>
 		<li><a href="/upload1">upload 1</a></li>
 		<li><a href="/upload2">upload 2</a></li>
 		<li><a href="/media">Stream Video Online</a></li>
 		<li><a href="/user/listing">loginas</a></li>
 		<li><a href="/logout">Logout</a></li>
-	</ul>
+	</ul-->
+	<div class="list-group mx-5 bg-dark">
+		<a href="/drive" class="list-group-item list-group-item-action">Drive</a>
+		<a href="/upload1" class="list-group-item list-group-item-action">Upload 1</a>
+		<a href="/upload2" class="list-group-item list-group-item-action">Upload 2</a>
+		<a href="/media" class="list-group-item list-group-item-action">Stream</a>
+		<a href="/user/listing" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">loginas</a>
+		<a href="/logout" class="list-group-item list-group-item-action">Logout</a>
+	</div>
 </body>
 </html>
 </html>

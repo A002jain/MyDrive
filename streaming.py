@@ -12,15 +12,15 @@ bp = Blueprint('stream', __name__)
 VIDEO_PATH = '/video'
 MB = 1 << 20
 BUFF_SIZE = 10 * MB
-global listFiles
 
 
 @bp.route('/media', methods=['GET', 'POST'])
 def media_video():
-    global listFiles
+    session['current_video_path'] = None
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
-    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv"])
+    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv", "webm", "mp3"])
+    session['video_list'] = listFiles
     return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
                            drive_name=drives, os_name=get_os())
 
@@ -47,10 +47,8 @@ def switch_drive(index_x=None):
 
 @bp.route('/stream/<int:file>')
 def home(file):
-    global listFiles
-    print(listFiles[file])
+    listFiles = session['video_list']
     if listFiles[file].find(".") == -1:
-        print("*" * 100)
         change_dir(listFiles[file])
         return redirect(url_for('stream.media_video'))
     response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(file))
@@ -105,8 +103,10 @@ def get_range(request_x):
 
 @bp.route(VIDEO_PATH + "/<int:file>")
 def video(file):
-    global listFiles
-    path = provide_dir_path() + listFiles[file]
+    listFiles = session["video_list"]
+    if session['current_video_path'] is None:
+        session['current_video_path'] = provide_dir_path() + listFiles[file]
+    path = session['current_video_path']
     start, end = get_range(request)
     return partial_response(path, start, end)
 

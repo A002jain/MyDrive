@@ -79,7 +79,7 @@ def generic_file_listing(path, file_filter=None):
         for i in a:
             if not i.name.startswith("."):
                 if file_filter is not None:
-                    if i.name[-3:] in file_filter:
+                    if i.name[-3:] in file_filter or i.name[-4:] in file_filter:
                         listing.append(i.name)
                     if i.name.find(".") == -1:
                         listing.append(i.name)

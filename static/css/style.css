@@ -1,0 +1,59 @@
+a {
+   	text-decoration: none;
+}
+a:link, a:visited {
+    color: #0062cc;
+}
+a:hover {
+   	color: red;
+}
+body {
+  background:linear-gradient(to right,#d09cec,#5fdcda);
+  background-attachment: fixed;
+}
+
+p,h3{
+  color: white
+}
+
+
+.v2 {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    background-size: cover;
+    overflow: hidden;
+}
+
+
+/*
+    css for video streaming
+*/
+.videoInsert {
+    right: 0;
+    bottom: 0;
+    background-color:black;
+}
+
+
+
+/*
+    css for upload page
+*/
+.base_upload_container{
+    padding: 50px;
+}
+.upload_container{
+    padding: 50px 50px;
+    width: 500px;
+    margin: auto;
+    border-style: dashed;
+    border-color: #941347
+}
+
+
