@@ -7,14 +7,14 @@ from flask import (
 )
 from utils import change_dir, provide_dir_path, generic_file_listing, drives,get_os
 
-bp = Blueprint('stream', __name__)
+stream_bp = Blueprint('stream', __name__)
 
 VIDEO_PATH = '/video'
 MB = 1 << 20
 BUFF_SIZE = 10 * MB
 
 
-@bp.route('/media', methods=['GET', 'POST'])
+@stream_bp.route('/media', methods=['GET', 'POST'])
 def media_video():
     session['current_video_path'] = None
     if 'username' not in session:
@@ -25,7 +25,7 @@ def media_video():
                            drive_name=drives, os_name=get_os())
 
 
-@bp.route('/back1', methods=['GET', 'POST'])
+@stream_bp.route('/back1', methods=['GET', 'POST'])
 def back():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
@@ -33,8 +33,8 @@ def back():
     return redirect(url_for('stream.media_video'))
 
 
-@bp.route('/switchDrive1/<index_x>//')
-@bp.route('/switchDrive1', methods=['GET'])
+@stream_bp.route('/switchDrive1/<index_x>//')
+@stream_bp.route('/switchDrive1', methods=['GET'])
 def switch_drive(index_x=None):
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
@@ -45,7 +45,7 @@ def switch_drive(index_x=None):
     return redirect(url_for('stream.media_video'))
 
 
-@bp.route('/stream/<int:file>')
+@stream_bp.route('/stream/<int:file>')
 def home(file):
     listFiles = session['video_list']
     if listFiles[file].find(".") == -1:
@@ -101,7 +101,7 @@ def get_range(request_x):
         return 0, None
 
 
-@bp.route(VIDEO_PATH + "/<int:file>")
+@stream_bp.route(VIDEO_PATH + "/<int:file>")
 def video(file):
     listFiles = session["video_list"]
     if session['current_video_path'] is None:
@@ -109,6 +109,3 @@ def video(file):
     path = session['current_video_path']
     start, end = get_range(request)
     return partial_response(path, start, end)
-
-
-

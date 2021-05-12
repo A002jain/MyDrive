@@ -4,10 +4,10 @@ from flask import (
 )
 from utils import userList, drives, get_os
 
-bp = Blueprint('user', __name__)
+user_bp = Blueprint('user', __name__)
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@user_bp.route('/login', methods=['GET', 'POST'])
 def login():
     user = []
     if request.method == 'POST':
@@ -21,7 +21,7 @@ def login():
         if user in userList:
             session['username'] = request.form['username']
             session['currentPath'] = drives[0][1] if get_os() == 'Linux' else drives[0][0]
-            return redirect(url_for('index'))
+            return redirect(url_for('drive.index'))
         else:
             flash("incorrect username or password ")
             return redirect(request.url)
@@ -29,12 +29,12 @@ def login():
 
 
 # Register user
-@bp.route('/register', methods=['GET'])
+@user_bp.route('/register', methods=['GET'])
 def register():
     return render_template('register.html')
 
 
-@bp.route('/add', methods=['POST'])
+@user_bp.route('/add', methods=['POST'])
 def add():
     user = []
     if request.method == 'POST':
@@ -55,10 +55,10 @@ def add():
 
 
 # logout
-@bp.route('/logout')
+@user_bp.route('/logout')
 def logout():
     if 'username' not in session:
         return "login first <a href='/login'>login</a>"
     session.pop('username', None)
     session.pop('currentPath', None)
-    return redirect(url_for('index'))
+    return redirect(url_for('drive.index'))
