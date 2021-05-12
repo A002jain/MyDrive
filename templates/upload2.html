@@ -31,7 +31,7 @@
     	</nav>
 		<div class="m-4">
 			<div class="select_file_container">
-				<form method=post enctype=multipart/form-data action="{{ url_for('uploadFile') }}">
+				<form method=post enctype=multipart/form-data action="{{ url_for('drive.uploadFile') }}">
 					<div class="form-group">
 						<input type="file" name="files[]" multiple="multiple" autocomplete="off" required  id="media" >	
 					</div>
