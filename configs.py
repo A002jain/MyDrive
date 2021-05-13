@@ -5,3 +5,8 @@ from pathlib import Path
 SECRET_KEY = 'This is an INSECURE secret!! DO NOT use this in production!!'
 
 UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
+
+# Flask-SQLAlchemy settings
+SQLALCHEMY_DATABASE_URI = 'sqlite:///drive_db.db'  # File-based SQL database
+SQLALCHEMY_TRACK_MODIFICATIONS = False  # Avoids SQLAlchemy warning
+

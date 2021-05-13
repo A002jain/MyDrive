@@ -3,7 +3,7 @@ from flask import render_template
 import os
 from werkzeug.utils import secure_filename
 
-from utils import change_dir, provide_dir_path, drives, userList, generic_file_listing, get_os, UPLOAD_FOLDER
+from utils import change_dir, provide_dir_path, drives, generic_file_listing, get_os, UPLOAD_FOLDER
 
 drive_bp = Blueprint('drive', __name__)
 
@@ -100,9 +100,3 @@ def uploadFile():
         print("file saved")
     return redirect(url_for('drive.upload2'))
 # https://www.w3schools.com/howto/howto_css_navbar_icon.asp
-
-
-@drive_bp.route('/user/listing', methods=['GET'])
-def listing():
-    print(userList)
-    return str(session)

@@ -25,12 +25,12 @@ def media_video():
                            drive_name=drives, os_name=get_os())
 
 
-@stream_bp.route('/back1', methods=['GET', 'POST'])
-def back():
-    if 'username' not in session:
-        return "login first <a href='/login'>login</a>"
-    change_dir("..")
-    return redirect(url_for('stream.media_video'))
+# @stream_bp.route('/back1', methods=['GET', 'POST'])
+# def back():
+#     if 'username' not in session:
+#         return "login first <a href='/login'>login</a>"
+#     change_dir("..")
+#     return redirect(url_for('stream.media_video'))
 
 
 @stream_bp.route('/switchDrive1/<index_x>//')

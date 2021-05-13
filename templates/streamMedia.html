@@ -22,6 +22,11 @@
           <li class="nav-item">
           <a class="nav-link" href="/upload2">Upload2</a>
         </li>
+        {% if session['username'] == "admin" %}
+        <li class="nav-item">
+          <a class="nav-link " href="/settings">Settings</a>
+        </li>
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link " href="/logout">Logout</a>
         </li>
@@ -30,14 +35,10 @@
 	<h3>StreamMedia</h3>  
   <a class="btn btn-primary bg-light" href="/back" role="button">back</a>  
 	{% for i in range(dirLength)%}
-  <div class="list-group mx-5">
-    <a href="/stream/{{i}}" class="list-group-item list-group-item-action my-1">{{ list[i] }}</a>
-  </div>
-	<!--ul>
-		<li><a href="/stream/{{i}}">{{list[i]}}</a></li>
-	</ul-->
+        <div class="list-group mx-5">
+        <a href="/stream/{{i}}" class="list-group-item list-group-item-action my-1">{{ list[i] }}</a>
+        </div>
 	{% endfor %}
-	<!--a href="/back">back</a-->
 	<br>
 	<br>
     {% if os_name == "Linux" %}

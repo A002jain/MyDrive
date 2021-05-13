@@ -4,7 +4,7 @@ from pathlib import Path
 import platform
 import os
 UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
-userList = [["Abhinav Jain", "q"], ["har", "q"]]
+# userList = [["Abhinav Jain", "q"], ["har", "q"]]
 
 
 def get_os():

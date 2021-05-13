@@ -25,6 +25,11 @@
           <li class="nav-item">
           <a class="nav-link" href="/media">Stream Video</a>
         </li>
+      {% if session['username'] == "admin" %}
+        <li class="nav-item">
+          <a class="nav-link " href="/settings">Settings</a>
+        </li>
+      {% endif %}
         <li class="nav-item">
           <a class="nav-link " href="/logout">Logout</a>
         </li>
@@ -35,14 +40,11 @@
 
   <a class="btn btn-primary bg-light" href="/back" role="button">back</a>
 	
-  {% for i in list %}
-  <div class="list-group mx-5">
-    <a href="/download/{{i}}" class="list-group-item list-group-item-action my-1">{{ i }}</a>
-  </div>
-	<!--ul>
-		<li><a href="/download/{{i}}">{{i}}</a></li>
-	</ul-->
-	{% endfor %}
+    {% for i in list %}
+      <div class="list-group mx-5">
+        <a href="/download/{{i}}" class="list-group-item list-group-item-action my-1">{{ i }}</a>
+      </div>
+    {% endfor %}
 
 	<br>
 	<br>
