@@ -48,11 +48,11 @@
 			<form class="col-lg-6 p-3 " method="post">
 				 <div class="form-group">
 				    <label>Email address</label>
-				    <input type="email" class="form-control" id="admin_email" aria-describedby="emailHelp" placeholder={{email}} disabled="True" name="email_profile">
+				    <input type="email" class="form-control" id="admin_email" aria-describedby="emailHelp" placeholder={{session['email']}} disabled="True" name="email_profile">
 				 </div>
                 <div class="form-group">
 				    <label>UserName</label>
-				    <input type="text" class="form-control" id="admin_username" placeholder={{admin_name}} disabled="True" name="username_profile">
+				    <input type="text" class="form-control" id="admin_username" placeholder={{session['username']}} disabled="True" name="username_profile">
                 </div>
 				 <div class="form-group">
 					<button type="submit" class="btn btn-primary">Edit</button>
@@ -113,7 +113,7 @@
 					</tr>
 				</thead>
 			<tbody>
-			{% for user in users[1:]: %}
+			{% for user in users: %}
 			<tr>
 			<th scope="row">{{ user.id }}</th>
 			<td>{{ user.email }}</td>

@@ -3,7 +3,7 @@ from flask import (
     Blueprint, redirect, render_template, request, session, url_for, flash
 )
 from utils import drives, get_os
-from db_file import get_user_by_email, add_to_db, get_from_db
+from db_file import get_user_by_email, add_to_db
 
 user_bp = Blueprint('user', __name__)
 
@@ -62,10 +62,4 @@ def logout():
     session.pop('email', None)
     session.pop('currentPath', None)
     return redirect(url_for('drive.index'))
-
-
-@user_bp.route('/user/listing', methods=['GET'])
-def listing():
-    print(get_from_db())
-    return str(session)
 

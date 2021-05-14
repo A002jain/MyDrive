@@ -1,5 +1,5 @@
 from flask import Flask
-from db_file import db
+from db_instance import db
 from streaming import stream_bp
 from users import user_bp
 from drive import drive_bp

@@ -9,8 +9,7 @@ admin_bp = Blueprint("admin", __name__)
 @admin_bp.route("/settings")
 @admin_role
 def admin_panel():
-    return render_template("setting.html", users=get_from_db(), folders=get_folder_db_data(), email=session["email"],
-                           admin_name=session["username"])
+    return render_template("setting.html", users=get_from_db(), folders=get_folder_db_data())
 
 
 @admin_bp.route("/remove_user", methods=['POST'])
@@ -54,4 +53,12 @@ def update():
     time_period = request.form['time_period']
     update_folder_db(folder_id, enable, time_period)
     return redirect(url_for('admin.admin_panel'))
+
+
+@admin_bp.route('/user/listing', methods=['GET'])
+@admin_role
+def listing():
+    print(get_from_db())
+    return str(session)
+
 
