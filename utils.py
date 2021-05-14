@@ -25,7 +25,7 @@ def provide_home_path():
                         lss[0].append(i.device)
                     else:
                         lss[1].append(i.device)
-            print(lss)
+            # print(lss)
             return lss
         except ImportError:
             dr = 'CDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -39,27 +39,27 @@ drives = provide_home_path()
 
 def change_dir(directory):
     current_path = provide_dir_path()
-    print("in v2: "+current_path)
+    # print("in v2: "+current_path)
     if "switch#Drive" in directory:
         if get_os() == "Linux":
             drives.reverse()
-            print(drives)
+            # print(drives)
             new_path = drives[0][1]
         else:
             index_x = drives[0].index(directory.split("#")[-1]+":\\")
             tmp = drives[0][index_x]
             drives[0][index_x] = drives[0][0]
             drives[0][0] = tmp
-            print(drives[0][0])
+            # print(drives[0][0])
             new_path = drives[0][0]
     elif directory != "..":
         new_path = os.path.join(current_path, directory) + "/"
     else:
-        print("back")
+        # print("back")
         new_path = str(Path(current_path).parent) + "/"
-    print("new_path: "+new_path)
+    # print("new_path: "+new_path)
     set_dir_path(new_path)
-    print("new session path: "+provide_dir_path())
+    # print("new session path: "+provide_dir_path())
     # return new_path
 
 
@@ -72,7 +72,7 @@ def set_dir_path(path):
 
 
 def generic_file_listing(path, file_filter=None):
-    print(path)
+    # print(path)
     listing = []
     try:
         a = os.scandir(path)

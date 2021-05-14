@@ -26,8 +26,8 @@ class Folders(db.Model):
     time_period = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='NONE')
 
 
-def add_to_db(email, user_name, password):
-    user_in_db = User(email=email, password=password, user_name=user_name)
+def add_to_db(email, user_name, password, verified=False):
+    user_in_db = User(email=email, password=password, user_name=user_name, verified=verified)
     db.session.add(user_in_db)
     db.session.commit()
 

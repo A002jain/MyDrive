@@ -29,8 +29,9 @@ def reset_app():
 def create_admin():
     print("Creating Admin with UserName 'admin'")
     user_name = "admin"
+    verified = True
     email, password = _cli_input()
-    add_to_db(email, user_name, password)
+    add_to_db(email, user_name, password, verified)
 
 
 def update_admin():
