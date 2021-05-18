@@ -1,6 +1,6 @@
-from flask import session, redirect, url_for, request, Blueprint, render_template
+from flask import session, redirect, url_for, request, Blueprint, render_template, jsonify
 from db_file import get_from_db, ban_user, add_to_folder_db, get_folder_db_data, delete_folder_from_db, update_folder_db
-from db_file import delete_user_from_db
+from db_file import delete_user_from_db, verified_user
 from custum_decorators import admin_role
 
 admin_bp = Blueprint("admin", __name__)
@@ -55,10 +55,24 @@ def update():
     return redirect(url_for('admin.admin_panel'))
 
 
-@admin_bp.route('/user/listing', methods=['GET'])
+@admin_bp.route("/activate", methods=['POST'])
 @admin_role
-def listing():
-    print(get_from_db())
-    return str(session)
+def activate_user():
+    activate_user_id = request.form['activate_user']
+    verified_user(activate_user_id)
+    return redirect(url_for('admin.admin_panel'))
+
+
+@admin_bp.route('/test/session', methods=['GET'])
+def test_session_data():
+    meta_data = {
+        'username': session.get('username'),
+        'email': session.get('email'),
+        'current_path': session.get('currentPath'),
+        'verified': session.get('verified'),
+        'current_video_path': session.get('current_video_path'),
+        'video_list': session.get('video_list')
+    }
+    return jsonify(meta_data)
 
 

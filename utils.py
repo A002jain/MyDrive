@@ -4,7 +4,6 @@ from pathlib import Path
 import platform
 import os
 UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
-# userList = [["Abhinav Jain", "q"], ["har", "q"]]
 
 
 def get_os():
@@ -71,7 +70,7 @@ def set_dir_path(path):
     session['currentPath'] = path
 
 
-def generic_file_listing(path, file_filter=None):
+def generic_file_listing(path, file_filter=None, view_folder=True):
     # print(path)
     listing = []
     try:
@@ -81,7 +80,7 @@ def generic_file_listing(path, file_filter=None):
                 if file_filter is not None:
                     if i.name[-3:] in file_filter or i.name[-4:] in file_filter:
                         listing.append(i.name)
-                    if i.name.find(".") == -1:
+                    if i.name.find(".") == -1 and view_folder:
                         listing.append(i.name)
                 else:
                     listing.append(i.name)

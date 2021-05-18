@@ -1,4 +1,5 @@
 from db_instance import db
+from configs import upload_folder as UPLOAD_FOLDER
 
 
 class User(db.Model):
@@ -35,7 +36,6 @@ def add_to_db(email, user_name, password, verified=False):
 def get_from_db(filtering=None):
     if filtering is None:
         return User.query.all()
-        # db_db = db.session.execute("select * from users")
     else:
         db_db = db.session.execute(f"select {filtering} from users")
     return db_db.fetchall()
@@ -51,20 +51,27 @@ def get_user_by_id(user_id):
     return user
 
 
-def get_folder_by_id(folder_id):
-    folder = Folders.query.filter_by(id=folder_id).first()
-    return folder
-
-
-def set_user_active(email, status):
-    pass
-    condition = User.email == email
-    # set_user_active_dml_query = User.__table__.update().values({'is_active': status}).where(s)
-    set_user_active_dml_query = generate_update_query(updated_values={'is_active': status}, where_condition=condition)
-    db.session.execute(set_user_active_dml_query)
+def delete_user_from_db(user_id):
+    user = get_user_by_id(user_id)
+    db.session.delete(user)
     db.session.commit()
-    # active_user.active = status
-    # db.session.commit()
+
+
+def update_password(email, current_password, new_password):
+    user = get_user_by_email(email)
+    if user is not None:
+        if user.password == current_password:
+            user.password = new_password
+            db.session.commit()
+            return True
+    return False
+
+
+def verified_user(user_id):
+    user = get_user_by_id(user_id)
+    flag = False if user.verified else True
+    user.verified = flag
+    db.session.commit()
 
 
 def ban_user(user_id):
@@ -81,11 +88,28 @@ def generate_update_query(updated_values, where_condition):
     return User.__table__.update().values(updated_values).where(where_condition)
 
 
-def get_folder_db_data():
-    return Folders.query.order_by(Folders.id).all()
+def get_folder_by_id(folder_id):
+    folder = Folders.query.filter_by(id=folder_id).first()
+    return folder
+
+
+def add_default_folder():
+    folders = Folders.query.all()
+    if len(folders) == 0:
+        add_to_folder_db(UPLOAD_FOLDER, time_period="NONE")
+
+
+def get_folder_db_data(enable=None):
+    add_default_folder()
+    if enable is None:
+        return Folders.query.order_by(Folders.id).all()
+    else:
+        return Folders.query.filter_by(share_enabled=enable).all()
 
 
 def add_to_folder_db(folder_path, time_period):
+    if folder_path[-1] != "/":
+        folder_path = folder_path + "/"
     if time_period is "":
         time_period = "NONE"
     folder_in_db = Folders(folder_path=folder_path, time_period=time_period)
@@ -96,12 +120,6 @@ def add_to_folder_db(folder_path, time_period):
 def delete_folder_from_db(folder_id):
     folder = get_folder_by_id(folder_id)
     db.session.delete(folder)
-    db.session.commit()
-
-
-def delete_user_from_db(user_id):
-    user = get_user_by_id(user_id)
-    db.session.delete(user)
     db.session.commit()
 
 

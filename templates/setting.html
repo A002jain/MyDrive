@@ -54,28 +54,7 @@
 				    <label>UserName</label>
 				    <input type="text" class="form-control" id="admin_username" placeholder={{session['username']}} disabled="True" name="username_profile">
                 </div>
-				 <div class="form-group">
-					<button type="submit" class="btn btn-primary">Edit</button>
-				</div>
 			</form>
-
-			<label>Change Password</label>
-			<form class="col-lg-6 p-3" method="post">
-				 <div class="form-group">
-				    <label for="currentPassword">Current Password</label>
-				    <input type="password" class="form-control" id="currentPassword" name="password">
-				 </div>
-
-				 <div class="form-group">
-				    <label for="newPassword">New Password</label>
-				    <input type="password" class="form-control" id="newPassword" name="password">
-				 </div>
-
-				 <div class="form-group">
-					<button type="submit" class="btn btn-primary">Change</button>
-				</div>
-			</form>
-
 	  </div>
 
 	  <div class="tab-pane fade" id="listUsers" role="tabpanel" aria-labelledby="v-pills-users-tab">
@@ -144,7 +123,7 @@
 	  	<form class="form-inline col-lg-6" method="post" action="/remove_folder">
 			<div class="form-group mx-sm-3 mb-2">
 			<label for="removePath" class="sr-only">removefolderpath</label>
-			<input type="text" class="form-control" id="removePath" placeholder="Remove Shared Folder" name="folder_id">
+			<input type="text" class="form-control" id="removePath" placeholder="Folder Id" name="folder_id">
 			</div>
 			 <div class="form-group">
 			<button type="submit" class="btn btn-primary mb-2">Remove Folder</button>
@@ -152,7 +131,7 @@
 		</form>
 		<form class="form-inline col-lg-6" method="post" action="/update_folder">
 			<div class="form-group mx-sm-3 mb-2">
-			<input type="text" class="form-control" id="edit-path" placeholder="folder id" name="folder_id">
+			<input type="text" class="form-control" id="edit-path" placeholder="Folder id" name="folder_id">
 			</div>
 			<div class="form-check m-2">
     			<input type="checkbox" class="form-check-input" id="enable_folder_id" name="enable_folder">

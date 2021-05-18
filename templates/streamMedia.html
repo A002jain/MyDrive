@@ -22,7 +22,7 @@
           <li class="nav-item">
           <a class="nav-link" href="/upload2">Upload2</a>
         </li>
-        {% if session['username'] == "admin" %}
+        {% if session['username'] == "admin" and session['verified'] %}
         <li class="nav-item">
           <a class="nav-link " href="/settings">Settings</a>
         </li>
@@ -32,21 +32,35 @@
         </li>
       </ul>
     </nav>
-	<h3>StreamMedia</h3>  
-  <a class="btn btn-primary bg-light" href="/back" role="button">back</a>  
-	{% for i in range(dirLength)%}
-        <div class="list-group mx-5">
-        <a href="/stream/{{i}}" class="list-group-item list-group-item-action my-1">{{ list[i] }}</a>
-        </div>
-	{% endfor %}
-	<br>
-	<br>
-    {% if os_name == "Linux" %}
-	    <h3><a href="/switchDrive">Move to {{drive_name[1][0]}}</a></h3>
+	{% if session['username'] == "admin" and session['verified'] %}
+        <h3>StreamMedia</h3>
+        <a class="btn btn-primary bg-light" href="/back" role="button">back</a>
+        {% for i in range(dirLength)%}
+            <div class="list-group mx-5">
+            <a href="/stream/{{i}}" class="list-group-item list-group-item-action my-1">{{ list[i] }}</a>
+            </div>
+        {% endfor %}
+        <br>
+        <br>
+        {% if os_name == "Linux" %}
+            <h3><a href="/switchDrive">Move to {{drive_name[1][0]}}</a></h3>
+        {% else %}
+                {% for i in drive_name[0][1:] %}
+                    <h3><a href="/switchDrive/{{i[0]}}">Move to {{i}}</a></h3>
+                {% endfor %}
+        {% endif %}
     {% else %}
-            {% for i in drive_name[0][1:] %}
-                <h3><a href="/switchDrive/{{i[0]}}">Move to {{i}}</a></h3>
-            {% endfor %}
+        <h3>Shared Folder</h3>
+        {% for i in range(dirLength)%}
+            <div class="list-group mx-5">
+            <a href="/stream/{{i}}" class="list-group-item list-group-item-action my-1">{{ list[i] }}</a>
+            </div>
+        {% endfor %}
+        <br>
+        <br>
+        {% for folder in folders %}
+            <h3><a href="/switchDrive/{{folder.id}}">Move to {{folder.folder_path.split("/")[-2]}}</a></h3>
+        {% endfor %}
     {% endif %}
 </body>
 </html>

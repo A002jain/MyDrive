@@ -7,11 +7,12 @@ from flask import (
 )
 from utils import change_dir, provide_dir_path, generic_file_listing, drives, get_os
 from custum_decorators import login_required, check_ban_user
+from db_file import get_folder_db_data
 stream_bp = Blueprint('stream', __name__)
 
 VIDEO_PATH = '/video'
 MB = 1 << 20
-BUFF_SIZE = 10 * MB
+BUFF_SIZE = 15 * MB
 
 
 @stream_bp.before_request
@@ -23,13 +24,17 @@ def check_user_data():
 @stream_bp.route('/media', methods=['GET', 'POST'])
 @login_required
 def media_video():
-    session['current_video_path'] = None
-    # if 'username' not in session:
-    #     return "login first <a href='/login'>login</a>"
-    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv", "webm", "mp3"])
+    session['current_video_path'] = session.get('current_video_path')
+    is_admin = session['username'] == "admin" and session['verified']
+    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv", "webm", "mp3"],
+                                     view_folder=True if is_admin else False)
     session['video_list'] = listFiles
-    return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
-                           drive_name=drives, os_name=get_os())
+    if session['username'] == "admin":
+        return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
+                               drive_name=drives, os_name=get_os())
+    else:
+        return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles), drive_name=drives,
+                               folders=get_folder_db_data(enable=True), os_name=get_os())
 
 
 # @stream_bp.route('/back1', methods=['GET', 'POST'])
@@ -58,8 +63,10 @@ def media_video():
 def home(tag=None):
     listFiles = session['video_list']
     if listFiles[tag].find(".") == -1:
-        change_dir(listFiles[tag])
+        if session['username'] == "admin" and session['verified']:
+            change_dir(listFiles[tag])
         return redirect(url_for('stream.media_video'))
+    session['current_video_path'] = None
     response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(tag))
     return response
 

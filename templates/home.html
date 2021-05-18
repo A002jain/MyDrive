@@ -35,21 +35,25 @@
         </li>
       </ul>
     </nav>
-	<h3 class="d-flex justify-content-center py-3">Welcome {{loginas}}</h3>
-	<!--ul class="list-group">
-		<li><a href="/drive">Drive</a></li>
-		<li><a href="/upload1">upload 1</a></li>
-		<li><a href="/upload2">upload 2</a></li>
-		<li><a href="/media">Stream Video Online</a></li>
-		<li><a href="/user/listing">loginas</a></li>
-		<li><a href="/logout">Logout</a></li>
-	</ul-->
+	<h3 class="d-flex justify-content-center py-3">Welcome {{session['username']}}</h3>
+    <div class="alert_box">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages: %}
+                    <div class="alert alert-warning" role="alert" >
+                        <p class="text-danger">{{message}}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
 	<div class="list-group mx-5 bg-dark">
 		<a href="/drive" class="list-group-item list-group-item-action">Drive</a>
 		<a href="/upload1" class="list-group-item list-group-item-action">Upload 1</a>
 		<a href="/upload2" class="list-group-item list-group-item-action">Upload 2</a>
 		<a href="/media" class="list-group-item list-group-item-action">Stream</a>
 		<a href="/user/listing" class="list-group-item list-group-item-action disabled" tabindex="-1" aria-disabled="true">loginas</a>
+        <a href="/change_password" class="list-group-item list-group-item-action">Change Password</a>
 		<a href="/logout" class="list-group-item list-group-item-action">Logout</a>
 	</div>
 </body>

@@ -37,7 +37,25 @@ def check_ban_user(func):
             user = get_user_by_email(session['email'])
             if user.banned and user is not None:
                 flash('You are Banned')
-                return redirect(url_for('user.login'))
+                return redirect(url_for('user.logout'))
         except KeyError:
             pass
     return check_user
+
+
+# def user_verified(func):
+#     @wraps(func)
+#     def verified(**kwargs):
+#         try:
+#             if session['verified']:
+#                 flash('You are not VERIFIED')
+#                 return redirect(url_for('user.index'))
+#             tag = kwargs.get('tag')
+#             if tag is not None:
+#                 return func(tag)
+#             else:
+#                 return func()
+#         except KeyError:
+#             pass
+#     return verified
+
