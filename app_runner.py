@@ -2,7 +2,7 @@ from app_config import create_app
 from app_cli import reset_app, update_admin, verify_admin
 import argparse
 
-VERSION = "1.9.7"
+VERSION = "1.9.9"
 parser = argparse.ArgumentParser("Start your own Media Server")
 parser.add_argument("-v", "--version", help="App version", action="store_true")
 parser.add_argument("--host", help="Host IP", metavar="", default="127.0.0.1")
