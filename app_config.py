@@ -4,6 +4,7 @@ from streaming import stream_bp
 from users import user_bp
 from drive import drive_bp
 from admin_panel import admin_bp
+from configs import ConfigClass
 
 
 def create_app():
@@ -11,8 +12,8 @@ def create_app():
 
     # Create Flask app load app.config
     app = Flask(__name__)
-    # app.config.from_object(__name__ + '.ConfigClass')
-    app.config.from_pyfile("configs.py")
+    app.config.from_object(ConfigClass)
+    # app.config.from_pyfile("configs.py")
     # adding user Blueprint
     app.register_blueprint(admin_bp)
     app.register_blueprint(stream_bp)
