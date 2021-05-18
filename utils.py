@@ -53,6 +53,8 @@ def change_dir(directory):
             new_path = drives[0][0]
     elif directory != "..":
         new_path = os.path.join(current_path, directory) + "/"
+        if not is_dir(new_path):
+            new_path = current_path
     else:
         # print("back")
         new_path = str(Path(current_path).parent) + "/"
@@ -88,6 +90,10 @@ def generic_file_listing(path, file_filter=None, view_folder=True):
         set_dir_path(drives[0][1])
         generic_file_listing(provide_dir_path())
     return listing
+
+
+def is_dir(new_path):
+    return os.path.isdir(new_path)
 
 
 """

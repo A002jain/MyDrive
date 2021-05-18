@@ -1,6 +1,7 @@
-from flask import session, redirect, url_for, request, Blueprint, render_template, jsonify
+from flask import session, redirect, url_for, request, Blueprint, render_template, jsonify, flash
 from db_file import get_from_db, ban_user, add_to_folder_db, get_folder_db_data, delete_folder_from_db, update_folder_db
 from db_file import delete_user_from_db, verified_user
+from utils import is_dir
 from custum_decorators import admin_role
 
 admin_bp = Blueprint("admin", __name__)
@@ -32,6 +33,9 @@ def banned_user():
 @admin_role
 def add_folders():
     folder_path = request.form['shared_folder_path']
+    if not is_dir(folder_path):
+        flash(f"{folder_path} not a directory")
+        return redirect(url_for('user.index'))
     time_period = request.form['time_period']
     add_to_folder_db(folder_path, time_period)
     return redirect(url_for('admin.admin_panel'))
