@@ -15,17 +15,22 @@ if __name__ == '__main__':
     verified = False
     args = parser.parse_args()
     app = create_app()
-    with app.app_context():
-        if verify_admin():
-            if not args.version and not args.reset and not args.set_admin:
-                verified = True
-            if args.version:
-                print(f"App Version {VERSION}")
-            elif args.reset:
-                reset_app()
-            elif args.set_admin:
-                update_admin()
-        else:
-            verified = False
+    if args.version:
+        print(f"App Version {VERSION}")
+    elif args.debug:
+        # do not push it please
+        verified = True
+    else:
+        with app.app_context():
+            if verify_admin():
+                if not args.reset and not args.set_admin:
+                    verified = True
+                if args.reset:
+                    reset_app()
+                elif args.set_admin:
+                    update_admin()
+            else:
+                verified = False
     if verified:
         app.run(host=args.host, port=args.port, debug=args.debug)
+        # app.run(host=args.host, port=args.port)
