@@ -19,6 +19,7 @@ class ConfigClass(object):
 
     # Flask settings
     SECRET_KEY = 'This is an INSECURE secret!! DO NOT use this in production!!'
+    # SESSION_COOKIE_SECURE = True
 
     UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
 
