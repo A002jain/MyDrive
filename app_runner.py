@@ -13,7 +13,7 @@ parser.add_argument("--debug", help="debug mode(dev only)", action="store_true")
 parser.add_argument("--set_admin", help="create admin user", action="store_true")
 parser.add_argument("--reset", help="Reset Database", action="store_true")
 
-if __name__ == '__main__':
+if __name__ == 't':
     verified = False
     args = parser.parse_args()
     app = create_app()
