@@ -1,0 +1,1 @@
+pyinstaller  --add-data /home/abhinav/Documents/My/OThers/Python/pychar_m/FIleDownloader/static:static --add-data /home/abhinav/Documents/My/OThers/Python/pychar_m/FIleDownloader/templates:templates  /home/abhinav/Documents/My/OThers/Python/pychar_m/FIleDownloader/app_runner.py

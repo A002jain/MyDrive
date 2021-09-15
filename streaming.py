@@ -5,53 +5,69 @@ import mimetypes
 from flask import (
     Response, Blueprint, redirect, render_template, request, session, url_for
 )
-from utils import change_dir, provide_dir_path, generic_file_listing, drives,get_os
-
+from utils import change_dir, provide_dir_path, generic_file_listing, drives, get_os
+from custum_decorators import login_required, check_ban_user
+from db_file import get_folder_db_data
 stream_bp = Blueprint('stream', __name__)
 
 VIDEO_PATH = '/video'
 MB = 1 << 20
-BUFF_SIZE = 10 * MB
+BUFF_SIZE = 15 * MB
+
+
+@stream_bp.before_request
+@check_ban_user
+def check_user_data():
+    pass
 
 
 @stream_bp.route('/media', methods=['GET', 'POST'])
+@login_required
 def media_video():
-    session['current_video_path'] = None
-    if 'username' not in session:
-        return "login first <a href='/login'>login</a>"
-    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv", "webm", "mp3"])
+    session['current_video_path'] = session.get('current_video_path')
+    is_admin = session['username'] == "admin" and session['verified']
+    listFiles = generic_file_listing(path=provide_dir_path(), file_filter=["mp4", "mkv", "webm", "mp3"],
+                                     view_folder=True if is_admin else False)
     session['video_list'] = listFiles
-    return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
-                           drive_name=drives, os_name=get_os())
-
-
-@stream_bp.route('/back1', methods=['GET', 'POST'])
-def back():
-    if 'username' not in session:
-        return "login first <a href='/login'>login</a>"
-    change_dir("..")
-    return redirect(url_for('stream.media_video'))
-
-
-@stream_bp.route('/switchDrive1/<index_x>//')
-@stream_bp.route('/switchDrive1', methods=['GET'])
-def switch_drive(index_x=None):
-    if 'username' not in session:
-        return "login first <a href='/login'>login</a>"
-    if index_x is None:
-        change_dir("switch#Drive")
+    if session['username'] == "admin":
+        return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles),
+                               drive_name=drives, os_name=get_os())
     else:
-        change_dir("switch#Drive#"+str(index_x))
-    return redirect(url_for('stream.media_video'))
+        return render_template('streamMedia.html', list=listFiles, dirLength=len(listFiles), drive_name=drives,
+                               folders=get_folder_db_data(enable=True), os_name=get_os())
 
 
-@stream_bp.route('/stream/<int:file>')
-def home(file):
+# @stream_bp.route('/back1', methods=['GET', 'POST'])
+# def back():
+#     if 'username' not in session:
+#         return "login first <a href='/login'>login</a>"
+#     change_dir("..")
+#     return redirect(url_for('stream.media_video'))
+
+
+# @stream_bp.route('/switchDrive1/<tag>//')
+# @stream_bp.route('/switchDrive1', methods=['GET'])
+# @login_required
+# def switch_drive(tag=None):
+#     if 'username' not in session:
+#         return "login first <a href='/login'>login</a>"
+#     if tag is None:
+#         change_dir("switch#Drive")
+#     else:
+#         change_dir("switch#Drive#"+str(tag))
+#     return redirect(url_for('stream.media_video'))
+
+
+@stream_bp.route('/stream/<int:tag>')
+@login_required
+def home(tag=None):
     listFiles = session['video_list']
-    if listFiles[file].find(".") == -1:
-        change_dir(listFiles[file])
+    if listFiles[tag].find(".") == -1:
+        if session['username'] == "admin" and session['verified']:
+            change_dir(listFiles[tag])
         return redirect(url_for('stream.media_video'))
-    response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(file))
+    session['current_video_path'] = None
+    response = render_template('streaming.html', video=VIDEO_PATH + "/" + str(tag))
     return response
 
 
@@ -102,7 +118,9 @@ def get_range(request_x):
 
 
 @stream_bp.route(VIDEO_PATH + "/<int:file>")
-def video(file):
+def video(file=None):
+    if 'username' not in session:
+        return redirect(url_for('user.login'))
     listFiles = session["video_list"]
     if session['current_video_path'] is None:
         session['current_video_path'] = provide_dir_path() + listFiles[file]

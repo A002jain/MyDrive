@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/static/css/style.css" rel="stylesheet">
     <link href="/static/plugin/bootstrap-4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/the-flash-sign.png') }}">
 	<title>{{name}}</title>
 </head>
 <body>
@@ -25,33 +26,49 @@
           <li class="nav-item">
           <a class="nav-link" href="/media">Stream Video</a>
         </li>
+      {% if session['username'] == "admin" and session['verified'] %}
+        <li class="nav-item">
+          <a class="nav-link " href="/settings">Settings</a>
+        </li>
+      {% endif %}
         <li class="nav-item">
           <a class="nav-link " href="/logout">Logout</a>
         </li>
       </ul>
     </nav>
 
-	<h3>{{drive_name[0][0]}}</h3>
+<!--    admin view-->
+    {% if session['username'] == "admin" and session['verified'] %}
+        <h3>{{drive_name[0][0]}}</h3>
+        <a class="btn btn-primary bg-light" href="/back" role="button">back</a>
 
-  <a class="btn btn-primary bg-light" href="/back" role="button">back</a>
-	
-  {% for i in list %}
-  <div class="list-group mx-5">
-    <a href="/download/{{i}}" class="list-group-item list-group-item-action my-1">{{ i }}</a>
-  </div>
-	<!--ul>
-		<li><a href="/download/{{i}}">{{i}}</a></li>
-	</ul-->
-	{% endfor %}
+        {% for i in list %}
+          <div class="list-group mx-5">
+            <a href="/download/{{i}}" class="list-group-item list-group-item-action my-1">{{ i }}</a>
+          </div>
+        {% endfor %}
 
-	<br>
-	<br>
-    {% if os_name == "Linux" %}
-	    <h3><a href="/switchDrive">Move to {{drive_name[1][0]}}</a></h3>
+        <br>
+        <br>
+        {% if os_name == "Linux" %}
+            <h3><a href="/switchDrive">Move to {{drive_name[1][0]}}</a></h3>
+        {% else %}
+                {% for i in drive_name[0][1:] %}
+                    <h3><a href="/switchDrive/{{i[0]}}">Move to {{i}}</a></h3>
+                {% endfor %}
+        {% endif %}
     {% else %}
-            {% for i in drive_name[0][1:] %}
-                <h3><a href="/switchDrive/{{i[0]}}">Move to {{i}}</a></h3>
-            {% endfor %}
+        <h3>Shared Folder</h3>
+        {% for i in list %}
+          <div class="list-group mx-5">
+            <a href="/download/{{i}}" class="list-group-item list-group-item-action my-1">{{ i }}</a>
+          </div>
+        {% endfor %}
+        <br>
+        <br>
+        {% for folder in folders %}
+            <h3><a href="/switchDrive/{{folder.id}}">Move to {{folder.folder_path.split("/")[-2]}}</a></h3>
+        {% endfor %}
     {% endif %}
 </body>
 </html>

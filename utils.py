@@ -4,7 +4,6 @@ from pathlib import Path
 import platform
 import os
 UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
-userList = [["Abhinav Jain", "q"], ["har", "q"]]
 
 
 def get_os():
@@ -25,7 +24,7 @@ def provide_home_path():
                         lss[0].append(i.device)
                     else:
                         lss[1].append(i.device)
-            print(lss)
+            # print(lss)
             return lss
         except ImportError:
             dr = 'CDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -39,27 +38,29 @@ drives = provide_home_path()
 
 def change_dir(directory):
     current_path = provide_dir_path()
-    print("in v2: "+current_path)
+    # print("in v2: "+current_path)
     if "switch#Drive" in directory:
         if get_os() == "Linux":
             drives.reverse()
-            print(drives)
+            # print(drives)
             new_path = drives[0][1]
         else:
             index_x = drives[0].index(directory.split("#")[-1]+":\\")
             tmp = drives[0][index_x]
             drives[0][index_x] = drives[0][0]
             drives[0][0] = tmp
-            print(drives[0][0])
+            # print(drives[0][0])
             new_path = drives[0][0]
     elif directory != "..":
         new_path = os.path.join(current_path, directory) + "/"
+        if not is_dir(new_path):
+            new_path = current_path
     else:
-        print("back")
+        # print("back")
         new_path = str(Path(current_path).parent) + "/"
-    print("new_path: "+new_path)
+    # print("new_path: "+new_path)
     set_dir_path(new_path)
-    print("new session path: "+provide_dir_path())
+    # print("new session path: "+provide_dir_path())
     # return new_path
 
 
@@ -71,8 +72,8 @@ def set_dir_path(path):
     session['currentPath'] = path
 
 
-def generic_file_listing(path, file_filter=None):
-    print(path)
+def generic_file_listing(path, file_filter=None, view_folder=True):
+    # print(path)
     listing = []
     try:
         a = os.scandir(path)
@@ -81,7 +82,7 @@ def generic_file_listing(path, file_filter=None):
                 if file_filter is not None:
                     if i.name[-3:] in file_filter or i.name[-4:] in file_filter:
                         listing.append(i.name)
-                    if i.name.find(".") == -1:
+                    if i.name.find(".") == -1 and view_folder:
                         listing.append(i.name)
                 else:
                     listing.append(i.name)
@@ -89,6 +90,10 @@ def generic_file_listing(path, file_filter=None):
         set_dir_path(drives[0][1])
         generic_file_listing(provide_dir_path())
     return listing
+
+
+def is_dir(new_path):
+    return os.path.isdir(new_path)
 
 
 """

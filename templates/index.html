@@ -6,6 +6,7 @@
 	<title>Login</title>
     <link href="/static/plugin/bootstrap-4.5.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/style.css" rel="stylesheet">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/the-flash-sign.png') }}">
 </head>
 <body>
     <div class="login_container">
@@ -25,15 +26,15 @@
 		                {% endif %}
 		            {% endwith %}
 	        	</div>
-                <div class="form-group">
-				    <label for="userName">UserName</label>
-				    <input type="text" class="form-control" id="inputUserName" name="username">
-                </div>
-<!--				 <div class="form-group">-->
-<!--				    <label for="inputEmail">Email address</label>-->
-<!--				    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" name="username">-->
-<!--				    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-<!--				 </div>-->
+<!--                <div class="form-group">-->
+<!--				    <label for="inputUserName">UserName</label>-->
+<!--				    <input type="text" class="form-control" id="inputUserName" name="username">-->
+<!--                </div>-->
+				 <div class="form-group">
+				    <label for="inputEmail">Email address</label>
+				    <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" name="email">
+				    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				 </div>
 				 <div class="form-group">
 				    <label for="inputPassword">Password</label>
 				    <input type="password" class="form-control" id="inputPassword" name="password">
