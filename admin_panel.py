@@ -78,5 +78,3 @@ def test_session_data():
         'video_list': session.get('video_list')
     }
     return jsonify(meta_data)
-
-

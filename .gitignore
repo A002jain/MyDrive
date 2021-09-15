@@ -4,3 +4,4 @@ static/plugin
 tmp
 build/__pycache__
 build/v_*
+venv

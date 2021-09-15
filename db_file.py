@@ -76,7 +76,7 @@ def verified_user(user_id):
 
 def ban_user(user_id):
     # u = User.__table__.update().values({'is_banned': status}).where(User.id == user_id)
-    condition = User.id == user_id
+    # condition = User.id == user_id
     user = get_user_by_id(user_id)
     user.banned = not user.banned
     # ban_user_dml_query = generate_update_query(updated_values={'is_banned': not status}, where_condition=condition)
