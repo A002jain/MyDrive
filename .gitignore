@@ -1,6 +1,5 @@
 .idea
 __pycache__
-static/plugin
 tmp
 build/__pycache__
 build/v_*
