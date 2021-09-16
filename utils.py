@@ -69,12 +69,14 @@ def provide_dir_path():
 
 
 def set_dir_path(path):
-    session['currentPath'] = path
+    if os.path.exists(path):
+        session['currentPath'] = path
 
 
 def generic_file_listing(path, file_filter=None, view_folder=True):
     # print(path)
     listing = []
+
     try:
         a = os.scandir(path)
         for i in a:

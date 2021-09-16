@@ -1,4 +1,4 @@
-from app_config import create_app
+from app import app
 from app_cli import reset_app, update_admin, verify_admin
 from ip_finder import get_wifi_ip
 from build.app_version import VERSION
@@ -13,10 +13,10 @@ parser.add_argument("--debug", help="debug mode(dev only)", action="store_true")
 parser.add_argument("--set_admin", help="create admin user", action="store_true")
 parser.add_argument("--reset", help="Reset Database", action="store_true")
 
-if __name__ == 't':
+if __name__ == '__main__':
     verified = False
     args = parser.parse_args()
-    app = create_app()
+    # app = create_app()
     if args.version:
         print(f"App Version {VERSION}")
     elif args.debug:

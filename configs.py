@@ -10,7 +10,8 @@ from pathlib import Path
 # SQLALCHEMY_DATABASE_URI = 'sqlite:///drive_db.db'  # File-based SQL database
 # SQLALCHEMY_TRACK_MODIFICATIONS = False  # Avoids SQLAlchemy warning
 
-upload_folder = str(Path.home()) + "/Downloads"
+upload_folder = Path.joinpath(Path.home(), "Downloads")
+upload_folder = str(Path.home()) if not upload_folder.exists() else upload_folder
 
 
 # Class-based application configuration
