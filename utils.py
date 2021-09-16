@@ -3,7 +3,6 @@ import subprocess as sb
 from pathlib import Path
 import platform
 import os
-UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
 
 
 def get_os():

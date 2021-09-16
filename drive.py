@@ -2,7 +2,7 @@ from flask import Blueprint, session, redirect, url_for, request, send_file
 from flask import render_template, flash
 import os
 from werkzeug.utils import secure_filename
-from utils import change_dir, provide_dir_path, drives, generic_file_listing, get_os, UPLOAD_FOLDER, set_dir_path
+from utils import change_dir, provide_dir_path, drives, generic_file_listing, get_os, upload_folder, set_dir_path
 from custum_decorators import login_required, check_ban_user, admin_role
 from db_file import get_folder_db_data, get_folder_by_id
 drive_bp = Blueprint('drive', __name__)
@@ -108,7 +108,7 @@ def uploadFile():
         for file in files:
             filename = secure_filename(file.filename)
             # print(UPLOAD_FOLDER)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            file.save(os.path.join(upload_folder, filename))
             # print("file saved")
         return redirect(url_for('drive.upload2'))
     flash("Not Verified for Upload")
