@@ -1,8 +1,9 @@
 from flask import Blueprint, session, redirect, url_for, request, send_file
 from flask import render_template, flash
 import os
+from configs import upload_folder
 from werkzeug.utils import secure_filename
-from utils import change_dir, provide_dir_path, drives, generic_file_listing, get_os, upload_folder, set_dir_path
+from utils import change_dir, provide_dir_path, drives, generic_file_listing, get_os, set_dir_path
 from custum_decorators import login_required, check_ban_user, admin_role
 from db_file import get_folder_db_data, get_folder_by_id
 drive_bp = Blueprint('drive', __name__)
