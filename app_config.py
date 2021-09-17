@@ -24,7 +24,7 @@ def create_app():
 
     # Create all database tables
     with app.app_context():
-        # db.drop_all()
+        db.drop_all()
         db.create_all()
     return app
 
