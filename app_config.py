@@ -5,6 +5,7 @@ from users import user_bp
 from drive import drive_bp
 from admin_panel import admin_bp
 from configs import ConfigClass
+from commands import *
 
 
 def create_app():
@@ -26,5 +27,8 @@ def create_app():
     # with app.app_context():
     #     db.drop_all()
     #     db.create_all()
+    app.cli.add_command(init_db)
+    app.cli.add_command(reset_db)
+    app.cli.add_command(add_admin)
     return app
 

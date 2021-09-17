@@ -6,7 +6,7 @@ from db_instance import db
 
 @click.command(name='add_admin')
 @with_appcontext
-def create_tables():
+def add_admin():
     email = "adhi@god.com"
     password = "god"
     user_name = "admin"
@@ -18,11 +18,11 @@ def create_tables():
 
 @click.command(name='init_db')
 @with_appcontext
-def create_tables():
+def init_db():
     db.create_all()
 
 
 @click.command(name='reset_db')
 @with_appcontext
-def create_tables():
+def reset_db():
     db.drop_all()
