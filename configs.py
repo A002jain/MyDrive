@@ -28,4 +28,6 @@ class ConfigClass(object):
     # Flask-SQLAlchemy settings
     # SQLALCHEMY_DATABASE_URI = 'sqlite:///drive_db.db'  # File-based SQL database
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")   # File-based SQL database
+    if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
+        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Avoids SQLAlchemy warning

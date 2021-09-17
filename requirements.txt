@@ -1,5 +1,7 @@
-Flask
+Flask~=2.0.1
 Flask-SQLAlchemy
-psutil
+psutil~=5.8.0
 pyinstaller
 gunicorn
+Werkzeug~=2.0.1
+click~=8.0.1
