@@ -11,10 +11,10 @@ class User(db.Model):
     # User authentication information. The collation='NOCASE' is required
     # to search case insensitively when USER_IFIND_MODE is 'nocase_collation'.
 
-    email = db.Column(db.String(100, collation='NOCASE'), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(255), nullable=False, server_default='')
 
-    user_name = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='')
+    user_name = db.Column(db.String(100), nullable=False, server_default='')
 
 
 class Folders(db.Model):
@@ -22,9 +22,9 @@ class Folders(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     share_enabled = db.Column('share_enabled', db.Boolean(), nullable=False, server_default='1')
 
-    folder_path = db.Column(db.String(100, collation='NOCASE'), nullable=False, unique=True)
+    folder_path = db.Column(db.String(100), nullable=False, unique=True)
 
-    time_period = db.Column(db.String(100, collation='NOCASE'), nullable=False, server_default='NONE')
+    time_period = db.Column(db.String(100), nullable=False, server_default='NONE')
 
 
 def add_to_db(email, user_name, password, verified=False):
