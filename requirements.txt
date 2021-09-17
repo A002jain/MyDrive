@@ -3,5 +3,6 @@ Flask-SQLAlchemy
 psutil~=5.8.0
 pyinstaller
 gunicorn
+Psycopg2
 Werkzeug~=2.0.1
 click~=8.0.1
