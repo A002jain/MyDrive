@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 """ Flask application config """
 
 # # Flask settings
@@ -25,5 +26,6 @@ class ConfigClass(object):
     UPLOAD_FOLDER = str(Path.home()) + "/Downloads"
 
     # Flask-SQLAlchemy settings
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///drive_db.db'  # File-based SQL database
+    # SQLALCHEMY_DATABASE_URI = 'sqlite:///drive_db.db'  # File-based SQL database
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")   # File-based SQL database
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Avoids SQLAlchemy warning
