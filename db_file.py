@@ -4,7 +4,7 @@ from configs import upload_folder as UPLOAD_FOLDER
 
 class User(db.Model):
     __tablename__ = 'users'
-    uid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     verified = db.Column(db.Boolean(), nullable=False, server_default='0')
     banned = db.Column('is_banned', db.Boolean(), nullable=False, server_default='0')
 
@@ -19,7 +19,7 @@ class User(db.Model):
 
 class Folders(db.Model):
     __tablename__ = 'folders'
-    fid = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     share_enabled = db.Column('share_enabled', db.Boolean(), nullable=False, server_default='1')
 
     folder_path = db.Column(db.String(100), nullable=False, unique=True)
