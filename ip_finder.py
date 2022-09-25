@@ -4,8 +4,8 @@ import psutil
 
 
 class Ipv4Addr(enum.Enum):
-    netmask = '255.255.255.0'
-    family = socket.AddressFamily.AF_INET
+    NETMASK = '255.255.255.0'
+    FAMILY = socket.AddressFamily.AF_INET
 
 
 def get_wifi_ip(address_family="ipv4"):
@@ -13,7 +13,7 @@ def get_wifi_ip(address_family="ipv4"):
         wifi_addrs = psutil.net_if_addrs().get("Wi-Fi")
         if address_family == "ipv4":
             for addr in wifi_addrs:
-                if addr.netmask == Ipv4Addr.netmask.value and addr.family == Ipv4Addr.family.value:
+                if addr.netmask == Ipv4Addr.NETMASK.value and addr.family == Ipv4Addr.FAMILY.value:
                     return addr.address
     return "127.0.0.1"
 

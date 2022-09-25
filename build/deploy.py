@@ -29,9 +29,10 @@ RUNNER_FILE = os.path.join(PROJECT_PATH, "app_runner.py")
 
 
 def build_package():
+    tag = input("build tag: ")
     os_system = platform.system()
     os_arch = platform.architecture()[0]
-    folder = f"v_{VERSION}_{os_system}_{os_arch}"
+    folder = f"v_{VERSION}_{os_system}_{os_arch}{tag}"
     if not os.path.exists(folder):
         os.mkdir(folder)
         os.chdir(folder)

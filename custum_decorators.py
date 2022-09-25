@@ -9,10 +9,9 @@ def admin_role(func):
         try:
             if session['username'] == "admin":
                 return func()
-            else:
-                return abort(404)
+            return abort(404)
         except KeyError:
-            abort(404)
+            return abort(404)
     return check_admin
 
 
@@ -23,10 +22,8 @@ def login_required(func):
             tag = kwargs.get('tag')
             if tag is not None:
                 return func(tag)
-            else:
-                return func()
-        else:
-            return redirect(url_for('user.login'))
+            return func()
+        return redirect(url_for('user.login'))
     return check_login
 
 
@@ -38,8 +35,9 @@ def check_ban_user(func):
             if user.banned and user is not None:
                 flash('You are Banned')
                 return redirect(url_for('user.logout'))
+            return
         except KeyError:
-            pass
+            return redirect(url_for('user.login'))
     return check_user
 
 
@@ -58,4 +56,3 @@ def check_ban_user(func):
 #         except KeyError:
 #             pass
 #     return verified
-

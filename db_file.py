@@ -110,7 +110,7 @@ def get_folder_db_data(enable=None):
 def add_to_folder_db(folder_path, time_period):
     if folder_path[-1] != "/":
         folder_path = folder_path + "/"
-    if time_period is "":
+    if time_period == "":
         time_period = "NONE"
     folder_in_db = Folders(folder_path=folder_path, time_period=time_period)
     db.session.add(folder_in_db)
@@ -126,7 +126,7 @@ def delete_folder_from_db(folder_id):
 def update_folder_db(folder_id, enable, time_period):
     updated_values = {
         'share_enabled': True if enable == "on" else False,
-        'time_period': "NONE" if time_period is "" else time_period
+        'time_period': "NONE" if time_period == "" else time_period
     }
     folder_update_dml = Folders.__table__.update().values(updated_values).where(Folders.id == folder_id)
     db.session.execute(folder_update_dml)

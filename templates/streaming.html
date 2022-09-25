@@ -31,16 +31,20 @@
         </li>
       </ul>
     </nav>
-    <video class="videoInsert"
-           id = "stream_video"
-           src="{{ video }}"
-           controls controlsList="nodownload"
-           autoplay
-           height="720"
-           width="1280"
-    >
-        no video to show
-    </video>
+    <div class="container-sm-p0-c2">
+        <div>
+            <video class="videoInsert"
+                   id = "stream_video"
+                   src="{{ video }}"
+                   controls controlsList="nodownload"
+                   autoplay
+                   width="800"
+                   height="400"
+                >
+                no video to show
+            </video>
+        </div>
+    </div>
 
     <script src="/static/js/handle_video.js"></script>
 </body>

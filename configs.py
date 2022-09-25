@@ -14,7 +14,7 @@ upload_folder = str(Path.home()) + "/Downloads"
 
 
 # Class-based application configuration
-class ConfigClass(object):
+class ConfigClass:
     """ Flask application config """
 
     # Flask settings
